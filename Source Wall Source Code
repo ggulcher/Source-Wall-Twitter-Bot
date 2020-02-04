@@ -1,0 +1,25 @@
+# Twitter API key changed
+
+import tweepy
+import time
+
+auth = tweepy.OAuthHandler("B7kANnb7KmnO7AeJXRXm4OGb0","Ba4HsMCIOe3hWT5aFixeylDK6qzYYCM6zW7bY9kf9bJAAQtpG2")
+auth.set_access_token("1224016287650383361-ApQxXPPuxWgScTGSKSg26KNOiPAVnf","rEdVt9kKTEOeNKqxdZSAmzqXWdwNJ4mSWlJ2Kp4vEVrN1")
+
+api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+
+user = api.me()
+
+search = "#comics #news"
+tweet_limit = 500
+
+for tweet in tweepy.Cursor(api.search, search).items(tweet_limit):
+    try:
+        print('Liked and Shared')
+        tweet.favorite()
+        tweet.retweet()
+        time.sleep(120) # A manageable time to avoid too many requests at one time
+    except tweepy.TweepError as e:
+        print(e.reason)
+    except StopIteration:
+        break
